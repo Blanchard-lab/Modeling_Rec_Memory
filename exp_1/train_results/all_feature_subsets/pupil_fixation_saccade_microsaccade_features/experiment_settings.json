@@ -1,0 +1,18 @@
+{
+    "experiment_name": "experiment1.7",
+    "buffers": [
+        "0",
+        "250",
+        "500"
+    ],
+    "windows": [
+        "1",
+        "2",
+        "3"
+    ],
+    "guide_metric": "avg_kappa",
+    "label": "scene_familiarity",
+    "search_length": 500,
+    "seed": 3789,
+    "experiment_description": "Train classifier to detect scene_familiarity (0 vs 1) using both pos and neg instances."
+}

@@ -1,0 +1,18 @@
+{
+    "experiment_name": "experiment5PerFeA",
+    "buffers": [
+        "0",
+        "250",
+        "500"
+    ],
+    "windows": [
+        "1",
+        "2",
+        "3"
+    ],
+    "guide_metric": "avg_kappa",
+    "label": "study_status",
+    "search_length": 1000,
+    "seed": 3789,
+    "experiment_description": "Investigates whether scenes that elicited a familiarity response but resulted in failed or partial recall still show encoding traces. This tests if study status can be recovered even when memory retrieval fails."
+}

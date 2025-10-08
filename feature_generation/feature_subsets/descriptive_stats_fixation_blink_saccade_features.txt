@@ -1,0 +1,120 @@
+
+Instance extraction for 1 second window and 0 ms buffer:
+	Total valid yoked pairs: 662
+	Total valid positives: 662
+	Total valid negatives: 662
+	Total positives dropped due to no yoked negative: 0
+	Total number of excluded scenes due to likely double button press: 18
+	Total number of excluded scenes due to button press occuring too soon: 0
+	Total number of excluded scenes due to blink at beginning of instance onset: 35
+	Average time to press button (seconds): 7.24
+	Standard deviation of time to press button after scene starts (seconds): 2.48
+	Average scene length (seconds): 15.22
+	Total unique pos instances: 662
+
+Instance extraction for 1 second window and 250 ms buffer:
+	Total valid yoked pairs: 660
+	Total valid positives: 660
+	Total valid negatives: 660
+	Total positives dropped due to no yoked negative: 0
+	Total number of excluded scenes due to likely double button press: 18
+	Total number of excluded scenes due to button press occuring too soon: 1
+	Total number of excluded scenes due to blink at beginning of instance onset: 36
+	Average time to press button (seconds): 7.23
+	Standard deviation of time to press button after scene starts (seconds): 2.47
+	Average scene length (seconds): 15.2
+	Total unique pos instances: 660
+
+Instance extraction for 1 second window and 500 ms buffer:
+	Total valid yoked pairs: 651
+	Total valid positives: 651
+	Total valid negatives: 651
+	Total positives dropped due to no yoked negative: 0
+	Total number of excluded scenes due to likely double button press: 18
+	Total number of excluded scenes due to button press occuring too soon: 1
+	Total number of excluded scenes due to blink at beginning of instance onset: 45
+	Average time to press button (seconds): 7.24
+	Standard deviation of time to press button after scene starts (seconds): 2.48
+	Average scene length (seconds): 15.21
+	Total unique pos instances: 651
+	Total unique neg instances: 651
+
+Instance extraction for 2 second window and 0 ms buffer:
+	Total valid yoked pairs: 644
+	Total valid positives: 644
+	Total valid negatives: 644
+	Total positives dropped due to no yoked negative: 0
+	Total number of excluded scenes due to likely double button press: 18
+	Total number of excluded scenes due to button press occuring too soon: 1
+	Total number of excluded scenes due to blink at beginning of instance onset: 52
+	Average time to press button (seconds): 7.29
+	Standard deviation of time to press button after scene starts (seconds): 2.47
+	Average scene length (seconds): 15.2
+	Total unique pos instances: 644
+
+Instance extraction for 2 second window and 250 ms buffer:
+	Total valid yoked pairs: 650
+	Total valid positives: 650
+	Total valid negatives: 650
+	Total positives dropped due to no yoked negative: 0
+	Total number of excluded scenes due to likely double button press: 18
+	Total number of excluded scenes due to button press occuring too soon: 1
+	Total number of excluded scenes due to blink at beginning of instance onset: 46
+	Average time to press button (seconds): 7.31
+	Standard deviation of time to press button after scene starts (seconds): 2.48
+	Average scene length (seconds): 15.25
+	Total unique pos instances: 650
+
+Instance extraction for 2 second window and 500 ms buffer:
+	Total valid yoked pairs: 646
+	Total valid positives: 646
+	Total valid negatives: 646
+	Total positives dropped due to no yoked negative: 0
+	Total number of excluded scenes due to likely double button press: 18
+	Total number of excluded scenes due to button press occuring too soon: 1
+	Total number of excluded scenes due to blink at beginning of instance onset: 50
+	Average time to press button (seconds): 7.29
+	Standard deviation of time to press button after scene starts (seconds): 2.51
+	Average scene length (seconds): 15.22
+	Total unique pos instances: 646
+	Total unique neg instances: 646
+
+Instance extraction for 3 second window and 0 ms buffer:
+	Total valid yoked pairs: 645
+	Total valid positives: 645
+	Total valid negatives: 645
+	Total positives dropped due to no yoked negative: 0
+	Total number of excluded scenes due to likely double button press: 18
+	Total number of excluded scenes due to button press occuring too soon: 1
+	Total number of excluded scenes due to blink at beginning of instance onset: 51
+	Average time to press button (seconds): 7.27
+	Standard deviation of time to press button after scene starts (seconds): 2.45
+	Average scene length (seconds): 15.2
+	Total unique pos instances: 645
+
+Instance extraction for 3 second window and 250 ms buffer:
+	Total valid yoked pairs: 649
+	Total valid positives: 649
+	Total valid negatives: 649
+	Total positives dropped due to no yoked negative: 0
+	Total number of excluded scenes due to likely double button press: 18
+	Total number of excluded scenes due to button press occuring too soon: 1
+	Total number of excluded scenes due to blink at beginning of instance onset: 47
+	Average time to press button (seconds): 7.26
+	Standard deviation of time to press button after scene starts (seconds): 2.43
+	Average scene length (seconds): 15.23
+	Total unique pos instances: 649
+
+Instance extraction for 3 second window and 500 ms buffer:
+	Total valid yoked pairs: 637
+	Total valid positives: 637
+	Total valid negatives: 637
+	Total positives dropped due to no yoked negative: 0
+	Total number of excluded scenes due to likely double button press: 18
+	Total number of excluded scenes due to button press occuring too soon: 1
+	Total number of excluded scenes due to blink at beginning of instance onset: 59
+	Average time to press button (seconds): 7.28
+	Standard deviation of time to press button after scene starts (seconds): 2.48
+	Average scene length (seconds): 15.25
+	Total unique pos instances: 637
+	Total unique neg instances: 637
