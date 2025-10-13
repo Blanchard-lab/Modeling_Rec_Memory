@@ -1,0 +1,18 @@
+{
+    "experiment_name": "experiment4RandTargetShuffle",
+    "buffers": [
+        "0",
+        "250",
+        "500"
+    ],
+    "windows": [
+        "1",
+        "2",
+        "3"
+    ],
+    "guide_metric": "avg_kappa",
+    "label": "recall_status",
+    "search_length": 1000,
+    "seed": 3789,
+    "experiment_description": "Experiment4"
+}
