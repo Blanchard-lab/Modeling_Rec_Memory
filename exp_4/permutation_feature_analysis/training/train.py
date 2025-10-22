@@ -259,7 +259,7 @@ def write_settings_file(experiment_dir, experiment_settings):
 if __name__ == "__main__":
     # Set your settings here
     experiment_settings = {
-    "experiment_name": "experiment4RandTargetShuffle",
+    "experiment_name": "experiment4ClassWeightsFeatureScaling",
     "buffers": ["0","250","500"],
     "windows": ["1","2","3"],
     "guide_metric": "avg_kappa",
@@ -283,6 +283,14 @@ if __name__ == "__main__":
             #base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../Features"))
             data_file = os.path.join(feature_dir, f'pos_pytrack_buff_{buffer_size}ms_{window_size}_sec.csv')
             X, y, groups = get_data(data_file, experiment_settings['label'])
+
+            logo = LeaveOneGroupOut()
+            for i, (train_idx, test_idx) in enumerate(logo.split(X, y, groups)):
+                unique_train = set(groups[train_idx])
+                unique_test = set(groups[test_idx])
+                assert len(unique_test) == 1, f"Fold {i}: More than one test participant!"
+                assert not (unique_train & unique_test), f"Fold {i}: Data leakage detected!"
+            print("✅ Leave-One-Group-Out sanity check passed — no data leakage.\n")
 
             # Set up parameter space for optimization
             num_samples = X.shape[0]

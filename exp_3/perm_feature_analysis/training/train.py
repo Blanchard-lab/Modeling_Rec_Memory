@@ -33,6 +33,7 @@ import csv
 import json
 from hyperopt import hp, tpe
 from sklearn.model_selection import LeaveOneGroupOut
+from sklearn.preprocessing import StandardScaler
 import argparse
 parser = argparse.ArgumentParser(description="Run Experiment 4 with a specified feature subset directory.")
 parser.add_argument("--feature_dir", type=str, required=True, help="Path to the folder containing feature subset CSVs.")
@@ -102,33 +103,6 @@ def process(df):
     df = df[(df['recall_status'] == 0) | (df['recall_status']== 0.5)]
     return df
 
-def balance_classes(df, label):
-    """
-    Downsamples each class to the size of the smallest class to balance the dataset.
-    Args:
-        df (pd.DataFrame): The filtered DataFrame (e.g., after process()).
-        label (str): Name of the label column to balance on.
-    Returns:
-        pd.DataFrame: Balanced DataFrame with equal samples from each class.
-    """
-    class_counts = df[label].value_counts()
-    min_count = class_counts.min()
-    balanced_df = (
-        df.groupby(label, group_keys=False)
-          .apply(lambda x: x.sample(min_count, random_state=42))
-          .reset_index(drop=True)
-    )
-    balanced_df = balanced_df.sample(frac=1, random_state=42).reset_index(drop=True)
-    print(f"Participants before balancing: {df['participant'].nunique()}")
-    print(f"Participants after balancing: {balanced_df['participant'].nunique()}")
-
-    
-    print("\nClass distribution by participant after balancing:")
-    participant_class_dist = balanced_df.groupby(['participant', label]).size().unstack(fill_value=0)
-    print(participant_class_dist)
-    print(f"\nParticipants with imbalanced classes: {(participant_class_dist[0.0] != participant_class_dist[1.0]).sum()}")
-
-    return balanced_df
 
 def get_data(filename, label):
     """
@@ -146,14 +120,54 @@ def get_data(filename, label):
             - groups (numpy.ndarray): The group identifiers for cross-validation.
     """
     data_df = pd.read_csv(filename)
+    print(f"Total samples: {len(data_df)}")
+    print(f"Participants: {data_df['participant'].nunique()}")
     data_df = process(data_df) # exclude unwanted instances
-    data_df = balance_classes(data_df, label)
+    print(f"\n=== AFTER FILTERING (scene_familiarity==1) ===")
+    print(f"Total samples: {len(data_df)}")
+    print(f"Participants: {data_df['participant'].nunique()}")
+    samples_per_participant = data_df.groupby('participant').size()
+    print(f"\nSamples per participant: min={samples_per_participant.min()}, max={samples_per_participant.max()}, mean={samples_per_participant.mean():.1f}")
 
     # print(f"\nFile: {os.path.basename(filename)}")
     # print("Label distribution after filtering and balancing:")
     # print(data_df[label].value_counts())
     # print("Total instances:", len(data_df))
     # print("------")
+    class_dist_per_participant = data_df.groupby(['participant', label]).size().unstack(fill_value=0)
+    print("\n=== Per-participant class distribution ===")
+    print(class_dist_per_participant)
+
+    MIN_SAMPLES_PER_CLASS = 5  # At least 5 samples of EACH class
+
+    # Filter participants who have at least MIN_SAMPLES_PER_CLASS of both classes
+    valid_participants = class_dist_per_participant[
+        (class_dist_per_participant[0.0] >= MIN_SAMPLES_PER_CLASS) &
+        (class_dist_per_participant[1.0] >= MIN_SAMPLES_PER_CLASS)
+    ].index
+
+    print(f"\nParticipants with <{MIN_SAMPLES_PER_CLASS} samples of either class:")
+    problematic = class_dist_per_participant[
+        (class_dist_per_participant[0.0] < MIN_SAMPLES_PER_CLASS) |
+        (class_dist_per_participant[1.0] < MIN_SAMPLES_PER_CLASS)
+    ]
+    print(problematic)
+
+    data_df = data_df[data_df['participant'].isin(valid_participants)]
+
+    print(f"\n=== AFTER REMOVING PARTICIPANTS WITH <{MIN_SAMPLES_PER_CLASS} PER CLASS ===")
+    print(f"Total samples: {len(data_df)}")
+    print(f"Participants: {data_df['participant'].nunique()}")
+    print(f"Samples per participant: min={data_df.groupby('participant').size().min()}, max={data_df.groupby('participant').size().max()}")
+
+    if len(data_df) == 0:
+        raise ValueError(f"No participants have >={MIN_SAMPLES_PER_CLASS} samples per class!")
+
+
+
+    data_df = (data_df.groupby('participant', group_keys=False)
+                      .apply(lambda x: x.sample(frac=1, random_state=42))
+                      .reset_index(drop=True))
 
     # Features from the dataset — all eye gaze features
     X = data_df.iloc[:, 4:]
@@ -170,13 +184,38 @@ def get_data(filename, label):
     groups = groups.to_numpy()
     groups = groups.reshape(-1)
     print("Participants: ", np.unique(groups))
-    print("=== PRE-BALANCE DIAGNOSTICS ===")
     print(f"Total samples: {len(data_df)}")
-    print(f"Total participants: {data_df['participant'].nunique()}")
-    print(f"Class distribution:\n{data_df[label].value_counts()}")
-    print(f"Samples per participant:\n{data_df.groupby('participant').size().describe()}")
+    print(f"Class distribution:\n{pd.Series(y).value_counts()}")
 
-    return X, y, groups
+    print("\n=== FEATURE ANALYSIS (BEFORE SCALING) ===")
+    feature_names = data_df.columns[4:].tolist()
+    feature_stats = pd.DataFrame(X, columns=feature_names).describe()
+    print(feature_stats)
+
+    print("\n=== FEATURE RANGES (BEFORE SCALING) ===")
+    feature_ranges = X.max(axis=0) - X.min(axis=0)
+    for i, name in enumerate(feature_names):
+        print(f"{name}: {feature_ranges[i]:.3f}")
+
+    print("\n=== FEATURE CORRELATIONS WITH TARGET ===")
+    temp_df = pd.DataFrame(X, columns=feature_names)
+    temp_df['target'] = y
+    correlations = temp_df.corr()['target'].drop('target')
+    print("Correlations (sorted by absolute value):")
+    print(correlations.sort_values(key=abs, ascending=False))
+
+    # ADD FEATURE SCALING HERE
+    print("\n=== APPLYING FEATURE SCALING ===")
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+
+    print("=== FEATURE ANALYSIS (AFTER SCALING) ===")
+    print(f"All features now have mean ≈ 0 and std ≈ 1")
+    scaled_stats = pd.DataFrame(X_scaled, columns=feature_names).describe()
+    print("Mean values:", scaled_stats.loc['mean'].round(3).values)
+    print("Std values:", scaled_stats.loc['std'].round(3).values)
+
+    return X_scaled, y, groups
     #return None, None, None
 
 
@@ -218,7 +257,7 @@ def write_settings_file(experiment_dir, experiment_settings):
 if __name__ == "__main__":
     # Set your settings here
     experiment_settings = {
-    "experiment_name": "experiment5PerFeA",
+    "experiment_name": "experiment5PerFeAClassWeightsFeatureScaling",
     "buffers": ["0","250","500"],
     "windows": ["1","2","3"],
     "guide_metric": "avg_kappa",

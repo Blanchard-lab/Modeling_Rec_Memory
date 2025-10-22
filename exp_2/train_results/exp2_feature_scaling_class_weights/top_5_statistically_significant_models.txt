@@ -1,0 +1,74 @@
+======================================================================
+Total statistically significant models: 246
+======================================================================
+
+Top 5 models saved to: /home/exx/caleb/Modeling_Rec_Memory/exp_2/train_results/exp2_feature_scaling_class_weights/top_5_statistically_significant_models.csv
+
+======================================================================
+TOP 5 STATISTICALLY SIGNIFICANT MODELS
+======================================================================
+
+Rank 1:
+  Feature Subset: pupil_saccade_microsaccade_features
+  Buffer: 250ms, Window: 2sec
+  Model: randomforest
+  Avg Kappa: 0.2307 ± 0.1917
+  95% CI: [0.1354, 0.3261]
+  p-value: 0.000044
+  CV (stability): 0.8307
+  Kappa Overall: 0.2029
+  Balanced Accuracy: 0.5930
+  F1 Overall: 0.6317
+
+Rank 2:
+  Feature Subset: pupil_microsaccade_features
+  Buffer: 250ms, Window: 2sec
+  Model: randomforest
+  Avg Kappa: 0.2298 ± 0.1583
+  95% CI: [0.1511, 0.3086]
+  p-value: 0.000005
+  CV (stability): 0.6888
+  Kappa Overall: 0.2012
+  Balanced Accuracy: 0.5949
+  F1 Overall: 0.6317
+
+Rank 3:
+  Feature Subset: pupil_fixation_blink_features
+  Buffer: 250ms, Window: 2sec
+  Model: AdaBoost
+  Avg Kappa: 0.2022 ± 0.1868
+  95% CI: [0.1094, 0.2951]
+  p-value: 0.000129
+  CV (stability): 0.9236
+  Kappa Overall: 0.1603
+  Balanced Accuracy: 0.5778
+  F1 Overall: 0.6111
+
+Rank 4:
+  Feature Subset: fixation_features
+  Buffer: 250ms, Window: 2sec
+  Model: AdaBoost
+  Avg Kappa: 0.1998 ± 0.2075
+  95% CI: [0.0966, 0.3029]
+  p-value: 0.000385
+  CV (stability): 1.0385
+  Kappa Overall: 0.1848
+  Balanced Accuracy: 0.5863
+  F1 Overall: 0.6242
+
+Rank 5:
+  Feature Subset: pupil_fixation_saccade_microsaccade_features
+  Buffer: 250ms, Window: 2sec
+  Model: randomforest
+  Avg Kappa: 0.1990 ± 0.2285
+  95% CI: [0.0854, 0.3127]
+  p-value: 0.000896
+  CV (stability): 1.1478
+  Kappa Overall: 0.1760
+  Balanced Accuracy: 0.5800
+  F1 Overall: 0.6186
+
+======================================================================
+CSV results saved to: /home/exx/caleb/Modeling_Rec_Memory/exp_2/train_results/exp2_feature_scaling_class_weights/top_5_statistically_significant_models.csv
+Log file saved to: /home/exx/caleb/Modeling_Rec_Memory/exp_2/train_results/exp2_feature_scaling_class_weights/top_5_statistically_significant_models.txt
+======================================================================
